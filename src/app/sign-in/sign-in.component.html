@@ -1,0 +1,57 @@
+<div class="form-container">
+    <form class="example-form">
+      <h2 class="form-title">Login</h2>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          [formControl]="emailFormControl"
+          [errorStateMatcher]="matcher"
+          placeholder="Ex. pat@example.com"
+        />
+        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required') || emailFormControl.hasError('pattern')) {
+          <mat-error>Please enter a valid email address</mat-error>
+        }
+        @if (emailFormControl.hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          [type]="hide() ? 'password' : 'text'"
+          matInput
+          [formControl]="passwordFormControl"
+          [errorStateMatcher]="matcher"
+          placeholder="Enter your password"
+        />
+        <!-- <button
+          mat-icon-button
+          matSuffix
+          (click)="hide()"
+          aria-label="Toggle password visibility"
+        >
+          <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button> -->
+        @if (passwordFormControl.hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+  
+      <div class="button-container">
+        <button mat-raised-button color="primary" >Login</button>
+      </div>
+    </form>
+  </div>
+  
+  
+  
+  <!-- <h3>Fetched Users:</h3>
+  <ul>
+    <li *ngFor="let user of users">
+      <p>{{ user.email }}</p>
+      <p>{{user.password}}</p>
+    </li>
+  </ul> -->
