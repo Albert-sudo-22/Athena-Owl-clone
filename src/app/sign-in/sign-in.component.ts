@@ -8,6 +8,8 @@ import {MatIconModule} from '@angular/material/icon';
 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { User } from '../user/user.model';
+import { UserService } from '../user/user.service';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -37,9 +39,9 @@ export class SignInComponent {
 
   matcher = new MyErrorStateMatcher();
 
-  // users: User[] = [];
+  users: User[] = [];
 
-  // constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   // ngOnInit(): void {
   //   this.fetchUsers();
@@ -56,21 +58,34 @@ export class SignInComponent {
   //   });
   // }
 
-  // login(): void {
-  //   const email = this.emailFormControl.value;
-  //   const password = this.passwordFormControl.value;
+  login(): void {
+    const email = this.emailFormControl.value?.trim().toLowerCase();
+    const password = this.passwordFormControl.value?.trim();
   
-  //   if (this.emailFormControl.invalid || this.passwordFormControl.invalid) {
-  //     alert('Please fill in all required fields with valid information.');
-  //     return;
-  //   }
+    if (this.emailFormControl.invalid || this.passwordFormControl.invalid) {
+      alert('Please fill in all required fields with valid information.');
+      return;
+    }
   
-  //   const user = this.users.find((u) => u.email === email && u.password === password);
+    this.userService.fetchUsers().subscribe({
+      next: (data) => {
+        this.users = data.users;
   
-  //   if (user) {
-  //     this.router.navigate(['/user', user.id]);
-  //   } else {
-  //     alert('Wrong email or password. Please try again.');
-  //   }
-  // }
+        const user = this.users.find(
+          (u) => u.email.toLowerCase() === email && u.password === password
+        );
+  
+        if (user) {
+          this.router.navigate(['/app-home']);
+        } else {
+          alert('Wrong email or password. Please try again.');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching users:', err);
+        alert('An error occurred while fetching user data. Please try again.');
+      },
+    });
+  }
+  
 }
