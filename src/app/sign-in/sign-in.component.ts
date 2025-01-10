@@ -76,6 +76,7 @@ export class SignInComponent {
         );
   
         if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
           this.router.navigate(['/home']);
         } else {
           alert('Wrong email or password. Please try again.');
@@ -87,5 +88,6 @@ export class SignInComponent {
       },
     });
   }
+  
   
 }
