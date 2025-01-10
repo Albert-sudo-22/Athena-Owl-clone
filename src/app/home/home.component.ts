@@ -5,7 +5,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { User } from '../user/user.model';
-
+import {MatMenuModule} from '@angular/material/menu';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,9 @@ import { User } from '../user/user.model';
     MatButtonModule,
     MatToolbarModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule,
+    CommonModule,
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -22,14 +25,14 @@ export class HomeComponent {
   userObject!: User
   constructor(private router: Router) {}
 
-  test(): void {
+  ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadUser(): void {
     const userString = localStorage.getItem('user');
     if (userString) {
       this.userObject = JSON.parse(userString);
-
-      console.log(this.userObject.firstName + " " +this.userObject.lastName); 
-      console.log(this.userObject.role)
-      
     } else {
       console.log('No user found in localStorage');
     }
