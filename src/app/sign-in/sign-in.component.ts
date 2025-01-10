@@ -1,11 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { User } from '../user/user.model';
@@ -22,12 +26,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-sign-in',
   imports: [MatFormFieldModule, MatInputModule, FormsModule, 
-    ReactiveFormsModule, MatButtonModule, MatIconModule, CommonModule],
+    ReactiveFormsModule, MatButtonModule, MatIconModule, CommonModule ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {
   hide = signal(true);
+  private snackBar = inject(MatSnackBar)
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -63,7 +68,11 @@ export class SignInComponent {
     const password = this.passwordFormControl.value?.trim();
   
     if (this.emailFormControl.invalid || this.passwordFormControl.invalid) {
-      alert('Please fill in all required fields with valid information.');
+      this.snackBar.open('Please fill in all required fields with valid information!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
       return;
     }
   
@@ -79,15 +88,24 @@ export class SignInComponent {
           localStorage.setItem('user', JSON.stringify(user));
           this.router.navigate(['/home']);
         } else {
-          alert('Wrong email or password. Please try again.');
+          this.snackBar.open('Wrong email or password!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+          });
         }
       },
       error: (err) => {
         console.error('Error fetching users:', err);
-        alert('An error occurred while fetching user data. Please try again.');
+        this.snackBar.open('An error occurred while fetching user data', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+        });
       },
     });
   }
+  
   
   
 }
