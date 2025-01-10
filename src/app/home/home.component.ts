@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { User } from '../user/user.model';
 import {MatMenuModule} from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,7 @@ import {MatCardModule} from '@angular/material/card';
     MatMenuModule,
     CommonModule,
     MatCardModule,
+    RouterOutlet,
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -46,7 +47,7 @@ export class HomeComponent {
   }
 
   goToHome():void{
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   goToGeneral(): void{
