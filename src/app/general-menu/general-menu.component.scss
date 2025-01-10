@@ -11,6 +11,15 @@
   bottom: 60px;
 }
 
+.full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-left {
+  justify-content: flex-start; 
+  text-align: left;
+}
 
 mat-sidenav-container {
   height: 100vh;
