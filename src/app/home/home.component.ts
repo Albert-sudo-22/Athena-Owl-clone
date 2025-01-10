@@ -44,4 +44,12 @@ export class HomeComponent {
     localStorage.removeItem('user');
     this.router.navigate(['/sign-in']);
   }
+
+  goToHome():void{
+    this.router.navigate(['/home']);
+  }
+
+  goToGeneral(): void{
+    this.router.navigate(['/general']);
+  }
 }

@@ -1,5 +1,9 @@
 <mat-toolbar color="primary">
-  <span>Home</span>
+  <button mat-button (click)="goToHome()">Home</button>
+  <button mat-button>About</button>
+  <button mat-button>Services</button>
+  <button mat-button>Contact</button>
+  <button mat-button (click)="goToGeneral()">General</button>
   <span class="example-spacer"></span>
   <button mat-button [matMenuTriggerFor]="userMenu">
     <mat-icon>account_circle</mat-icon>
@@ -15,6 +19,9 @@
       <span>Log Out</span>
     </button>
   </mat-menu>
+  <button mat-icon-button class="example-icon" aria-label="icon-button with setting icon">
+    <mat-icon>settings_application</mat-icon>
+  </button>
 </mat-toolbar>
 
 
