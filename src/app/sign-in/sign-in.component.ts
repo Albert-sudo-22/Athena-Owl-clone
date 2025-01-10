@@ -76,7 +76,7 @@ export class SignInComponent {
         );
   
         if (user) {
-          this.router.navigate(['/app-home']);
+          this.router.navigate(['/home']);
         } else {
           alert('Wrong email or password. Please try again.');
         }

@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     {path:"sign-in", component: SignInComponent},
-    {path:"app-home", component: HomeComponent},
+    {path:"home", component: HomeComponent},
     {path: '', pathMatch: 'full', redirectTo: 'sign-in'},
 ];
 
