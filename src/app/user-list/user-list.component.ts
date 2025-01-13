@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
+import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
 
 export interface PeriodicElement {
   name: string;
@@ -23,7 +24,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 @Component({
   selector: 'app-user-list',
-  imports: [MatTableModule],
+  imports: [MatTableModule,],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })

@@ -8,6 +8,7 @@ import { User } from '../user/user.model';
 import {MatMenuModule} from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-home',
