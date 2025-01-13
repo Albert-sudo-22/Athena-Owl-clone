@@ -13,7 +13,6 @@ import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
     MatIconModule,
     MatListModule,
     RouterOutlet, 
-    BreadcrumbComponent,
   ],
   templateUrl: './general-menu.component.html',
   styleUrl: './general-menu.component.scss'
