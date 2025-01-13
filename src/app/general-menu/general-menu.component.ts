@@ -21,6 +21,6 @@ export class GeneralMenuComponent {
   constructor(private router: Router){}
 
   goToUserList(): void{
-    this.router.navigate(['/general/user-list'])
+    this.router.navigate(['page/general/user-list'])
   }
 }

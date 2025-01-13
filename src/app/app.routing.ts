@@ -9,8 +9,8 @@ import { UserListComponent } from './user-list/user-list.component';
 export const routes: Routes = [
     {path:"sign-in", component: SignInComponent},
     {
-        path: "",
-        component: HomeComponent, // Shared layout with navbar
+        path: "page",
+        component: HomeComponent, 
         children: [
             { path: "", component: DefaultComponent },
           { path: "general", component: GeneralMenuComponent, 
@@ -19,7 +19,7 @@ export const routes: Routes = [
             ]
           },
         ],
-      },
+    },
     {path: '', pathMatch: 'full', redirectTo: 'sign-in'},
 ];
 

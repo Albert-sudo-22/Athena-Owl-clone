@@ -85,7 +85,7 @@ export class SignInComponent {
   
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
-          this.router.navigate(['/']);
+          this.router.navigate(['/page']);
         } else {
           this.snackBar.open('Wrong email or password!', 'Close', {
             duration: 3000,

@@ -47,10 +47,10 @@ export class HomeComponent {
   }
 
   goToHome():void{
-    this.router.navigate(['/']);
+    this.router.navigate(['/page/']);
   }
 
   goToGeneral(): void{
-    this.router.navigate(['/general']);
+    this.router.navigate(['/page/general']);
   }
 }
