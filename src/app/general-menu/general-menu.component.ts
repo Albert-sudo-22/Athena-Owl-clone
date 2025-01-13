@@ -24,4 +24,8 @@ export class GeneralMenuComponent {
   goToUserList(): void{
     this.router.navigate(['page/general/user-list'])
   }
+
+  goToItem1(): void{
+    this.router.navigate(['page/general/Item1'])
+  }
 }

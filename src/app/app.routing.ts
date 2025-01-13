@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { GeneralMenuComponent } from './general-menu/general-menu.component';
 import { DefaultComponent } from './default/default.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { Item1Component } from './Items/item1/item1.component';
 
 export const routes: Routes = [
   { path: "sign-in", component: SignInComponent, data: { breadcrumb: "Sign In" } },
@@ -18,6 +19,8 @@ export const routes: Routes = [
         component: GeneralMenuComponent,
         data: { breadcrumb: "General" },
         children: [
+          { path: "", redirectTo: "Item1", pathMatch: "full" },
+          { path: "Item1", component: Item1Component },
           {
             path: "user-list",
             component: UserListComponent,
