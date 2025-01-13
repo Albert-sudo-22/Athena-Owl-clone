@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../user/user.model';
 import { UserService } from '../user/user.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -14,6 +15,8 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 })
 export class UserListComponent {
   displayedColumns: string[] = ['id', 'name', 'role', 'username', 'email'];
+  private unsubscribe$ = new Subject<void>();
+
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,6 +40,11 @@ export class UserListComponent {
         console.error('Error fetching users:', err);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
 
