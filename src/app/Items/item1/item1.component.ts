@@ -1,16 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AgGridAngular } from "ag-grid-angular";
-import type { ColDef } from "ag-grid-community";
+import type { ColDef, GridReadyEvent } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 // Row Data Interface
 interface IRow {
-  make: string;
-  model: string;
+  mission: string;
+  company: string;
+  location: string;
+  date: string;
+  time: string;
+  rocket: string;
   price: number;
-  electric: boolean;
+  successful: boolean;
 }
 
 @Component({
@@ -20,25 +25,27 @@ interface IRow {
   styleUrl: './item1.component.scss'
 })
 export class Item1Component {
-  // Row Data: The data to be displayed.
-  rowData: IRow[] = [
-    { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-    { make: "Ford", model: "F-Series", price: 33850, electric: false },
-    { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-    { make: "Mercedes", model: "EQA", price: 48890, electric: true },
-    { make: "Fiat", model: "500", price: 15774, electric: false },
-    { make: "Nissan", model: "Juke", price: 20675, electric: false },
-  ];
-  
-  // Column Definitions: Defines & controls grid columns.
-  colDefs: ColDef<IRow>[] = [
-    { field: "make" },
-    { field: "model" },
-    { field: "price" },
-    { field: "electric" },
-  ];
-  
-  defaultColDef: ColDef = {
-    flex: 1,
-  };
+// Row Data: The data to be displayed.
+rowData: IRow[] = [];
+
+// Column Definitions: Defines & controls grid columns.
+colDefs: ColDef[] = [
+  { field: "mission" },
+  { field: "company" },
+  { field: "location" },
+  { field: "date" },
+  { field: "price" },
+  { field: "successful" },
+  { field: "rocket" },
+];
+
+// Load data into grid when ready
+constructor(private http: HttpClient) {}
+onGridReady(params: GridReadyEvent) {
+  this.http
+    .get<
+      any[]
+    >("https://www.ag-grid.com/example-assets/space-mission-data.json")
+    .subscribe((data) => (this.rowData = data));
+}
 }
