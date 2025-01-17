@@ -1,0 +1,13 @@
+.shared-grid {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    ag-grid-angular {
+      flex-grow: 1;
+    }
+    mat-paginator {
+      margin-top: 10px;
+    }
+  }
+  

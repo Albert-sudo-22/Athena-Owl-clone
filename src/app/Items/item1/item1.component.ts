@@ -1,30 +1,27 @@
-import { Component } from '@angular/core';
-import { AgGridAngular } from "ag-grid-angular";
-import type { ColDef, GridReadyEvent } from "ag-grid-community";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { UserService } from '../../user/user.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
+import { SharedGridComponent } from '../../shared-grid/shared-grid.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-item1',
-  imports: [AgGridAngular, MatPaginator, MatPaginatorModule],
+  imports: [SharedGridComponent],
   templateUrl: './item1.component.html',
   styleUrl: './item1.component.scss'
 })
-export class Item1Component {
+export class Item1Component implements OnInit, OnDestroy {
   rowData: any[] = [];
-  colDefs: ColDef[] = [];
+  colDefs: any[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(private userService: UserService) {}
 
-  onGridReady(params: GridReadyEvent) {
+  ngOnInit(): void {
     this.userService.fetchProduct().subscribe((data) => {
       if (data && data.products && data.products.length > 0) {
-        console.log(data);
         this.rowData = data.products;
 
         this.colDefs = [
@@ -38,10 +35,13 @@ export class Item1Component {
           {
             field: 'reviews',
             headerName: 'Reviews',
-            valueFormatter: (params) => {
+            valueFormatter: (params: { value: any[]; }) => {
               if (params.value && Array.isArray(params.value)) {
                 return params.value
-                  .map((review: any) => `${review.reviewerName}: ${review.rating}/5 - "${review.comment}"`)
+                  .map(
+                    (review: any) =>
+                      `${review.reviewerName}: ${review.rating}/5 - "${review.comment}"`
+                  )
                   .join('\n');
               }
               return 'No reviews';
@@ -50,13 +50,13 @@ export class Item1Component {
           {
             field: 'meta',
             headerName: 'Meta Info',
-            valueFormatter: (params) =>
+            valueFormatter: (params: { value: { createdAt: any; barcode: any; }; }) =>
               `${params.value?.createdAt || ''}, ${params.value?.barcode || ''}`,
           },
           {
             field: 'dimensions',
             headerName: 'Dimensions (Width)',
-            valueFormatter: (params) => params.value?.width || '',
+            valueFormatter: (params: { value: { width: any; }; }) => params.value?.width || '',
           },
         ];
       }
