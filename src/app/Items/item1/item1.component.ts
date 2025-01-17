@@ -1,51 +1,70 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AgGridAngular } from "ag-grid-angular";
 import type { ColDef, GridReadyEvent } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { UserService } from '../../user/user.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-// Row Data Interface
-interface IRow {
-  mission: string;
-  company: string;
-  location: string;
-  date: string;
-  time: string;
-  rocket: string;
-  price: number;
-  successful: boolean;
-}
-
 @Component({
   selector: 'app-item1',
-  imports: [AgGridAngular],
+  imports: [AgGridAngular, MatPaginator, MatPaginatorModule],
   templateUrl: './item1.component.html',
   styleUrl: './item1.component.scss'
 })
 export class Item1Component {
-// Row Data: The data to be displayed.
-rowData: IRow[] = [];
+  rowData: any[] = [];
+  colDefs: ColDef[] = [];
+  private unsubscribe$ = new Subject<void>();
 
-// Column Definitions: Defines & controls grid columns.
-colDefs: ColDef[] = [
-  { field: "mission" },
-  { field: "company" },
-  { field: "location" },
-  { field: "date" },
-  { field: "price" },
-  { field: "successful" },
-  { field: "rocket" },
-];
+  constructor(private userService: UserService) {}
 
-// Load data into grid when ready
-constructor(private http: HttpClient) {}
-onGridReady(params: GridReadyEvent) {
-  this.http
-    .get<
-      any[]
-    >("https://www.ag-grid.com/example-assets/space-mission-data.json")
-    .subscribe((data) => (this.rowData = data));
-}
+  onGridReady(params: GridReadyEvent) {
+    this.userService.fetchProduct().subscribe((data) => {
+      if (data && data.products && data.products.length > 0) {
+        console.log(data);
+        this.rowData = data.products;
+
+        this.colDefs = [
+          { field: 'id', headerName: 'ID' },
+          { field: 'title', headerName: 'Title' },
+          { field: 'description', headerName: 'Description' },
+          { field: 'category', headerName: 'Category' },
+          { field: 'price', headerName: 'Price' },
+          { field: 'rating', headerName: 'Overall Rating' },
+          { field: 'stock', headerName: 'Stock' },
+          {
+            field: 'reviews',
+            headerName: 'Reviews',
+            valueFormatter: (params) => {
+              if (params.value && Array.isArray(params.value)) {
+                return params.value
+                  .map((review: any) => `${review.reviewerName}: ${review.rating}/5 - "${review.comment}"`)
+                  .join('\n');
+              }
+              return 'No reviews';
+            },
+          },
+          {
+            field: 'meta',
+            headerName: 'Meta Info',
+            valueFormatter: (params) =>
+              `${params.value?.createdAt || ''}, ${params.value?.barcode || ''}`,
+          },
+          {
+            field: 'dimensions',
+            headerName: 'Dimensions (Width)',
+            valueFormatter: (params) => params.value?.width || '',
+          },
+        ];
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }
