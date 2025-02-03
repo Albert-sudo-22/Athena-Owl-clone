@@ -15,9 +15,10 @@ export class SharedGridComponent {
   @Input() rowData: any[] = [];
   @Input() columnDefs: ColDef[] = [];
   @Input() pagination: boolean = true;
-  @Input() paginationPageSize: number = 10;
   @Input() usePaginator: boolean = false;
 
+  public paginationPageSize = 10;
+  public paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
   private unsubscribe$ = new Subject<void>();
 
   constructor() {}
