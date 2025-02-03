@@ -3,11 +3,12 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    ag-grid-angular {
-      flex-grow: 1;
-    }
-    mat-paginator {
-      margin-top: 10px;
-    }
+    flex-grow: 1;
+    overflow: auto;
+    max-height: 500px;
   }
-  
+  .shared-grid-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
