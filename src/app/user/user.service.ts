@@ -18,5 +18,5 @@ export class UserService {
   fetchProduct(): Observable<any> {
     return this.http.get(this.apiProduct);
   }
-  
+
 }
